@@ -63,6 +63,23 @@ public class RestaurantOrders {
                 .collect(Collectors.toList());
     }
 
+    public List<Order> getHomeDeliveryOrders() {
+        return orders.stream()
+                .filter(Order::isHomeDelivery)
+                .collect(Collectors.toList());
+    }
+
+    public void printMinMaxHomeOrders() {
+        orders.stream()
+                .filter(Order::isHomeDelivery)
+                .max(Comparator.comparingDouble(Order::getTotal))
+                .ifPresent(o -> System.out.println("Самый прибыльный на дом: " + o));
+
+        orders.stream()
+                .filter(Order::isHomeDelivery)
+                .min(Comparator.comparingDouble(Order::getTotal))
+                .ifPresent(o -> System.out.println("Наименее прибыльный на дом: " + o));
+    }
 
 
 
