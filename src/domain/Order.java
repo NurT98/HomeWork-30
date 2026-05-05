@@ -58,4 +58,12 @@ public class Order {
                 .mapToDouble(Item::getPrice)
                 .sum();
     }
+
+    @Override
+    public String toString() {
+        return String.format("Заказ: Клиент - %s, Доставка - %s, Сумма - %.2f",
+                customer.getFullName(),
+                homeDelivery ? " Да" : " Нет",
+                total);
+    }
 }
