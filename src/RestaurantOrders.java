@@ -81,6 +81,24 @@ public class RestaurantOrders {
                 .ifPresent(o -> System.out.println("Наименее прибыльный на дом: " + o));
     }
 
+    public List<Order> getOrdersInPriceRange(double min, double max) {
+        return orders.stream()
+                .filter(o -> o.getTotal() > min && o.getTotal() < max)
+                .collect(Collectors.toList());
+    }
+
+    public double getTotalCostOfAllOrders() {
+        return orders.stream()
+                .mapToDouble(Order::getTotal)
+                .sum();
+    }
+
+    public Set<String> getUniqueSortedEmails() {
+        return orders.stream()
+                .map(o -> o.getCustomer().getEmail())
+                .collect(Collectors.toCollection(TreeSet::new));
+    }
+
 
 
 
