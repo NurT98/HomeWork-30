@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import domain.Customer;
 import domain.Item;
 import domain.Order;
 
@@ -99,8 +98,41 @@ public class RestaurantOrders {
                 .collect(Collectors.toCollection(TreeSet::new));
     }
 
+    public Map<String, List<Order>> getOrdersByCustomerName() {
+        return orders.stream()
+                .collect(Collectors.groupingBy(order -> order.getCustomer().getFullName()));
+    }
 
+    public Map<String, Double> getTotalSumByCustomerName() {
+        return orders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> order.getCustomer().getFullName(),
+                        Collectors.summingDouble(Order::getTotal)
+                ));
+    }
 
+    public String getCustomerWithMaxSum() {
+        return getTotalSumByCustomerName().entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("Нет данных");
+    }
+
+    public String getCustomerWithMinSum() {
+        return getTotalSumByCustomerName().entrySet().stream()
+                .min(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("Нет данных");
+    }
+
+    public Map<String, Long> getItemsCount() {
+        return orders.stream()
+                .flatMap(order -> order.getItems().stream())
+                .collect(Collectors.groupingBy(
+                        Item::getName,
+                        Collectors.counting()
+                ));
+    }
 
 
 }
