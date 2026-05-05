@@ -72,12 +72,12 @@ public class RestaurantOrders {
         orders.stream()
                 .filter(Order::isHomeDelivery)
                 .max(Comparator.comparingDouble(Order::getTotal))
-                .ifPresent(o -> System.out.println("Самый прибыльный на дом: " + o));
+                .ifPresent(o -> System.out.println("Самый прибыльный заказ на дом: " + o));
 
         orders.stream()
                 .filter(Order::isHomeDelivery)
                 .min(Comparator.comparingDouble(Order::getTotal))
-                .ifPresent(o -> System.out.println("Наименее прибыльный на дом: " + o));
+                .ifPresent(o -> System.out.println("Наименее прибыльный заказ на дом: " + o));
     }
 
     public List<Order> getOrdersInPriceRange(double min, double max) {
